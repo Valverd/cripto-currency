@@ -14,7 +14,7 @@ function App() {
           <Route path="/" element={<Home />} />
         </Route>
         <Route path="/" element={<Layout />}>
-          <Route path="/detail/" element={<Detail />} />
+          <Route path="/detail/:cripto" element={<Detail />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
