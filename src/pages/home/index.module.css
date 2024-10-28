@@ -98,6 +98,22 @@ table td{
     background-color: #30bdffe0;
 }
 
+.logo{
+    width: 20px;
+    height: 20px;
+    transition: 1s all;
+    cursor: pointer;
+}
+
+.logo:hover{
+    transform: scale(1.2);
+}
+
+.name{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
 
 
 @media screen and (max-width: 600px){
@@ -127,4 +143,8 @@ table td{
     th:last-child{
         border-radius: 0;
     }
+
+    .name img{
+        margin-left: 10px;
     }
+}

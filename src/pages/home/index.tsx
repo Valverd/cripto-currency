@@ -27,6 +27,7 @@ interface DataProps {
 export default function Home() {
   const [input, setInput] = useState<string>("");
   const [coins, setCoins] = useState<CoinProps[]>([]);
+  const [limit, setLimit] = useState<number>(5);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,7 +35,7 @@ export default function Home() {
   }, []);
 
   function getData() {
-    fetch(`https://api.coincap.io/v2/assets?limit=5`)
+    fetch(`https://api.coincap.io/v2/assets?limit=${limit}`)
       .then((res) => res.json())
       .then((data: DataProps) => {
         const coins = data.data;
@@ -60,9 +61,13 @@ export default function Home() {
 
           return formated;
         });
-
-        console.log(formatedResult);
+        setCoins(formatedResult);
       });
+  }
+
+  function updateLimit() {
+    setLimit((e) => e + 5);
+    getData();
   }
 
   function handleSubmit(e: FormEvent) {
@@ -96,30 +101,47 @@ export default function Home() {
         </thead>
 
         <tbody id="body">
-          <tr className={styles.tr}>
-            <td className={styles.tdLabel} data-label="Moeda">
-              <div className={styles.name}>
-                <Link to={"/detail/bitcoin"}>
-                  <span>Bitcoin</span> | BTC
-                </Link>
-              </div>
-            </td>
-            <td className={styles.tdLabel} data-label="Valor Mercado">
-              1T
-            </td>
-            <td className={styles.tdLabel} data-label="Preço">
-              8.000
-            </td>
-            <td className={styles.tdLabel} data-label="Volumes">
-              2B
-            </td>
-            <td className={styles.tdLabel} data-label="Mudança 24h">
-              <span className={styles.tdProfit}>1.96%</span>
-            </td>
-          </tr>
+          {coins.map((item: CoinProps) => {
+            return (
+              <tr className={styles.tr}>
+                <td className={styles.tdLabel} data-label="Moeda">
+                  <div className={styles.name}>
+                    <img
+                      alt="Logo Cripto"
+                      className={styles.logo}
+                      onClick={() => navigate(`/detail/${item.name}`)}
+                      src={`https://assets.coincap.io/assets/icons/${item.symbol.toLowerCase()}@2x.png`}
+                    />
+                    <Link to={`/detail/${item.name}`}>
+                      <span>{item.name}</span> | {item.symbol}
+                    </Link>
+                  </div>
+                </td>
+                <td className={styles.tdLabel} data-label="Valor Mercado">
+                  {item.formatedMarket}
+                </td>
+                <td className={styles.tdLabel} data-label="Preço">
+                  {item.formatedPrice}
+                </td>
+                <td className={styles.tdLabel} data-label="Volumes">
+                  {item.formatedVolume}
+                </td>
+                <td className={styles.tdLabel} data-label="Mudança 24h">
+                  <span className={Number(item.changePercent24Hr) >= 0 ? styles.tdProfit : styles.tdLoss}>
+                    {Number(item.changePercent24Hr).toFixed(3)}%
+                  </span>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
-      <button className={styles.buttonMore}>Carregar Mais...</button>
+      <button
+        className={styles.buttonMore}
+        onClick={updateLimit}
+      >
+          Carregar Mais...
+      </button>
     </main>
   );
 }
