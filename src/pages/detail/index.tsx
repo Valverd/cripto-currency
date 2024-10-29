@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { CoinProps } from "../home";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import Header from "../../components/header";
+import Footer from "../../components/footer";
 
 
 interface ResponseData{
@@ -64,7 +65,10 @@ export default function Detail() {
 
 
   if(loading){
-    return <div className={styles.loading}><AiOutlineLoading3Quarters className={styles.loading_animation} color='#fff' /> Carregando</div>
+    return (<div className={styles.loading}>
+      <Header />
+      <AiOutlineLoading3Quarters className={styles.loading_animation} color='#fff' />
+    </div>)
   }
 
   return(
@@ -85,6 +89,8 @@ export default function Detail() {
         <h3>Volume: <span>{coin?.formatedVolume}</span></h3>
         <h3>Mudança 24h: <span className={Number(coin?.changePercent24Hr) >= 0 ? styles.tdProfit : styles.tdLoss}>{Number(coin?.changePercent24Hr).toFixed(2)}%</span></h3>
       </section>
+
+      <Footer></Footer>
     </div>
   )
 }

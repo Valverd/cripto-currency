@@ -1,17 +1,25 @@
 .footer{
     position: fixed;
-    width: 100vw;
+    width: 100%;
     left: 0;
     bottom: 0;
-    background-color: #353535;
+    background-color: #1f1d27;
+    box-shadow: 0 0 2px #000;
     color: #fff;
 }
 
 .footer_content{
     padding: 12px;
-    max-width: 1070px;
+    max-width: 1050px;
     margin: auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    
+}
+
+.left_footer, .right_footer{
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
