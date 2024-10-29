@@ -4,6 +4,7 @@
     flex-direction: column;
     align-items: center;
     gap: 20px;
+    margin-bottom: 100px;
 }
 
 .form{
@@ -54,6 +55,12 @@ th{
 
 .tr{
     background-color: #1f1d27;
+    box-shadow: 0 0 10px #121212;
+    transition: 0.5s all ease;
+}
+
+.tr:hover{
+    transform: scale(1.015);
 }
 
 td:first-child,
@@ -87,11 +94,13 @@ table td{
 }
 
 .buttonMore{
-    background-color: #30beff;
+    background-color: #218bbd;
     padding: 8px 24px;
     border-radius: 8px;
     color: #FFF;
     width: 200px;
+    font-weight: bold;
+    transition: 0.3s all;
 }
 
 .buttonMore:hover{

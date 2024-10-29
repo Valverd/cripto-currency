@@ -1,0 +1,70 @@
+.loading{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 30px;
+    color: #FFF;
+}
+
+.loading_animation{
+    animation: rotate 1s linear infinite;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #FFF;
+}
+
+.content{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 30px;
+    background-color: #1f1d27;
+    padding: 20px;
+    border-radius: 16px;
+    width: 400px;
+    box-shadow: 0 0 10px #121212;
+    transition: 0.5s all ease;
+}
+
+.content:hover{
+    transform: scale(1.1);
+}
+
+.logo{
+    width: 50px;
+    transition: 1s all;
+}
+
+.logo:hover{
+    transform: rotate(360deg);
+}
+
+.content span{
+    font-weight: normal;
+    margin-left: 5px;
+}
+
+.tdProfit{
+    color: #12f98a;
+}
+
+.tdLoss{
+    color: #f91257;
+}
+
+
+
+@keyframes rotate {
+    from{
+        transform: rotate(0);
+    }
+    to{
+        transform: rotate(359deg);
+    }
+}
