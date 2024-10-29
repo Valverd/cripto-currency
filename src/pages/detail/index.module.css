@@ -33,10 +33,6 @@
     transition: 0.5s all ease;
 }
 
-.content:hover{
-    transform: scale(1.1);
-}
-
 .logo{
     width: 50px;
     transition: 1s all;
@@ -68,4 +64,10 @@
     to{
         transform: rotate(359deg);
     }
+}
+
+@media screen and (max-width: 600px){
+    .content{
+        width: 250px;
+    }    
 }

@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from "./index.module.css";
 import { BsSearch } from "react-icons/bs";
 import { FormEvent, useEffect, useState } from "react";
+import Fuse from "fuse.js";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
 
@@ -30,11 +31,12 @@ export default function Home() {
   const [input, setInput] = useState<string>("");
   const [coins, setCoins] = useState<CoinProps[]>([]);
   const [limit, setLimit] = useState<number>(5);
+  const [searchCoin, setSearchCoin] = useState<boolean>(false)
   const navigate = useNavigate();
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [limit]);
 
   async function getData() {
     await fetch(`https://api.coincap.io/v2/assets?limit=${limit}`)
@@ -67,15 +69,47 @@ export default function Home() {
       });
   }
 
-  async function updateLimit() {
-    await setLimit((e) => e + 5);
-    await getData();
+  function updateLimit() {
+    setLimit((e) => e + 5);
   }
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     if (input === "") return;
-    navigate(`/detail/${input}`);
+    await fetch("https://api.coincap.io/v2/assets")
+      .then((res) => res.json())
+      .then((data: DataProps) => {
+        const fuse = new Fuse(data.data, {
+          threshold: 0.3,
+          keys: ["name", "id"],
+        });
+        const coinsFuse: CoinProps[] = fuse
+          .search(input)
+          .map((coin) => coin.item);
+        const formatedResult = coinsFuse.map((item) => {
+          const formated = {
+            ...item,
+            formatedPrice: Number(item.priceUsd).toLocaleString("en-US", {
+              style: "currency",
+              currency: "USD",
+            }),
+            formatedMarket: Number(item.marketCapUsd).toLocaleString("en-US", {
+              style: "currency",
+              currency: "USD",
+              notation: "compact",
+            }),
+            formatedVolume: Number(item.volumeUsd24Hr).toLocaleString("en-US", {
+              style: "currency",
+              currency: "USD",
+              notation: "compact",
+            }),
+          };
+
+          return formated;
+        });
+        setSearchCoin(true)
+        setCoins(formatedResult);
+      });
   }
 
   return (
@@ -149,7 +183,7 @@ export default function Home() {
             })}
           </tbody>
         </table>
-        <button className={styles.buttonMore} onClick={updateLimit}>
+        <button className={searchCoin ? styles.hide : styles.buttonMore} onClick={updateLimit}>
           Carregar Mais...
         </button>
       </main>
