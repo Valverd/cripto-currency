@@ -5,3 +5,7 @@
     height: 120px;
     max-width: 1080px;
 }
+
+.logo{
+    cursor: pointer;
+}

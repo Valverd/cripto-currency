@@ -15,6 +15,7 @@ export default function Header() {
             ? window.location.reload()
             : navigate("/")
         }
+        className={styles.logo}
       />
     </header>
   );
